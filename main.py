@@ -13,8 +13,8 @@ import numpy as np
 import csv
 import os
 import path
-from datetime import date
-
+import datetime
+from datetime import datetime
 
 urldf = pd.read_csv("patch_all_cities_state_remove_duplicate_4_8_2022.csv")
 
@@ -126,7 +126,7 @@ for i in range(int(start_i), int(end_i)):
                                'author': author_name_temp, 'title': author_title_temp, "context": str_}
 
                         df = df.append(df2, ignore_index=True)
-                        article_set_city_state.add(url)
+                        article_set_city_state.add(suburl)
         except:
             error_cities_states = [city, state, url]
             my_list.append(error_cities_states)
@@ -166,13 +166,13 @@ for i in range(int(start_i), int(end_i)):
 # print all error cities
 
 
-today = date.today()
+now = datetime.now() # current date and time
 dirsname = "error_log"
 if not os.path.exists(dirsname):
     os.makedirs(dirsname)
 
 
-filename =  "errors_log.csv"+today;
+filename =  "errors_log_"+now.strftime("%m%d%Y_%H%M%S")+".csv";
 print(filename)
 csvlogPath = os.path.join(dirsname,filename)
 
