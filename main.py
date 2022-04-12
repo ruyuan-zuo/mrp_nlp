@@ -7,6 +7,8 @@ from selenium.webdriver.common.keys import Keys
 import time
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
+from webdriver_manager.chrome import ChromeDriverManager
+from selenium.webdriver.firefox.firefox_binary import FirefoxBinary
 
 import pandas as pd
 import numpy as np
@@ -18,16 +20,20 @@ from datetime import datetime
 
 urldf = pd.read_csv("patch_all_cities_state_remove_duplicate_4_8_2022.csv")
 
+binary = FirefoxBinary('path/to/firefox.exe')
+driver = webdriver.Firefox(firefox_binary=binary)
+# driver = webdriver.Firefox(executable_path="./geckodriver")
+
 my_list = []
 # start 61
 
-start_i = input("Enter start index: ")
-end_i = input("Enter end index : ")
+# start_i = input("Enter start index: ")
+# end_i = input("Enter end index : ")
 
-print(start_i)
-print(end_i)
+# print(start_i)
+# print(end_i)
 
-for i in range(int(start_i), int(end_i)):
+for i in range(70, 100):
     sub = urldf['url'][i]
     print(sub)
     sub_split = sub.split("/")
@@ -40,6 +46,8 @@ for i in range(int(start_i), int(end_i)):
     print(master_url)
     # initiating the webdriver. Parameter includes the path of the webdriver.
     driver = webdriver.Chrome('./chromedriver')
+    # driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
+
     driver.get(master_url)
     time.sleep(7)
 
