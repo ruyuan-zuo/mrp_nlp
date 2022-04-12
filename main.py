@@ -5,8 +5,10 @@ from bs4 import BeautifulSoup
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 import time
-from selenium.webdriver.chrome.service import Service
+# from selenium.webdriver.service import Service
 from selenium.webdriver.common.by import By
+from selenium import webdriver
+from selenium.webdriver.firefox.options import Options
 
 import pandas as pd
 import numpy as np
@@ -21,13 +23,13 @@ urldf = pd.read_csv("patch_all_cities_state_remove_duplicate_4_8_2022.csv")
 my_list = []
 # start 61
 
-start_i = input("Enter start index: ")
-end_i = input("Enter end index : ")
+# start_i = input("Enter start index: ")
+# end_i = input("Enter end index : ")
 
-print(start_i)
-print(end_i)
+# print(start_i)
+# print(end_i)
 
-for i in range(int(start_i), int(end_i)):
+for i in range(71, 171):
     sub = urldf['url'][i]
     print(sub)
     sub_split = sub.split("/")
@@ -38,8 +40,14 @@ for i in range(int(start_i), int(end_i)):
     city = sub_split[4]
     master_url = "https://web.archive.org/web/20201101000000*/"+sub+"/politics"
     print(master_url)
+    
+    options = Options()
+    options.headless = True
+    driver = webdriver.Firefox(options=options)
     # initiating the webdriver. Parameter includes the path of the webdriver.
-    driver = webdriver.Chrome('./chromedriver')
+    # driver = webdriver.Chrome('./chromedriver')
+    # driver = webdriver.Firefox()
+
     driver.get(master_url)
     time.sleep(7)
 
@@ -62,7 +70,8 @@ for i in range(int(start_i), int(end_i)):
     for url in mast:
         print(url)
 #             url = "https://web.archive.org/web/"+date +"/" + sub + "/politics"
-        driver = webdriver.Chrome('./chromedriver')
+        # driver = webdriver.Chrome('./chromedriver')
+        driver = webdriver.Firefox(options=options)
         driver.get(url)
         time.sleep(7)
         try:
@@ -83,7 +92,7 @@ for i in range(int(start_i), int(end_i)):
                     suburl = "https://patch.com/" + url
 
                     if suburl not in article_set_city_state:
-                        driver2 = webdriver.Chrome('./chromedriver')
+                        driver2 = webdriver.Firefox(options=options)
                         driver2.get(suburl)
                         time.sleep(7)
 
